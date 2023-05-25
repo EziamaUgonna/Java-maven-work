@@ -41,7 +41,7 @@ pipeline {
 
 pipeline {
     agent any
-    tools{
+    tools {
         maven 'Maven'
     }
     stages {
@@ -53,16 +53,15 @@ pipeline {
                 }
             }
         }
-    }
         stage('build image') {
             steps {
                 script {
-                    echo "building the docker image..."
+                    echo "Building the docker image..."
                     withCredentials([usernamePassword(credentialsId: 'dockerid', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'docker build -t elvindavin4u/practice:v1.2 .'
                         sh "echo $PASS | docker login -u $USER --password-stdin"
-}                       sh 'docker push elvindavin4u/practice:v1.2'
-'
+                        sh 'docker push elvindavin4u/practice:v1.2'
+                    }
                 }
             }
         }
@@ -74,4 +73,4 @@ pipeline {
             }
         }
     }
-
+}
